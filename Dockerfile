@@ -42,7 +42,7 @@ RUN pip install virtualenv virtualenvwrapper
 
 ##### PHP #####
 # install PHP without apache
-RUN apt-get install php5-cli php5-gd php5-mysql \
+RUN apt-get -y -qq install php5-cli php5-gd php5-mysql \
                     php5-pgsql php5-ldap php5-imap \
                     php5-sqlite php5-mcrypt php5-curl \
                     php-pear php5-memcache php5-ps \

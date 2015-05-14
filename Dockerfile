@@ -91,6 +91,7 @@ RUN mkdir /home/developer/projects && chown developer:developer /home/developer/
 
 # Define working directory.
 VOLUME ["/home/developer/projects"]
+WORKDIR /home/developer
 
 # expose the working directory, the Tomcat port, the Grunt server port, the SSHD port and run SSHD
 EXPOSE 8080 3000 3001

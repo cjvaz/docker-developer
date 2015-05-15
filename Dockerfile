@@ -79,10 +79,10 @@ RUN npm install -g npm@2.9.1 && npm cache clear
 RUN npm install -g yo bower grunt-cli gulp
 
 # install yeoman generators
-RUN npm install -g generator-karma@1.0.0 \
-                   generator-angular@0.11.1 \
-                   generator-gulp-angular@0.11.0 \
-                   generator-jhipster@2.10.1
+RUN npm install -g generator-karma \
+                   generator-angular \
+                   generator-gulp-angular \
+                   generator-jhipster
 
 ##### RUBY ######
 # install ruby, sass and compass

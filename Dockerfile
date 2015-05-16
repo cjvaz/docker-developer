@@ -82,7 +82,9 @@ RUN npm install -g yo bower grunt-cli gulp
 RUN npm install -g generator-karma \
                    generator-angular \
                    generator-gulp-angular \
-                   generator-jhipster
+                   generator-jhipster@2.11.0 \
+                   generator-angular-fullstack \
+                   generator-ionic \
 
 ##### RUBY ######
 # install ruby, sass and compass

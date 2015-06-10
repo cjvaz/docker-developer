@@ -70,25 +70,29 @@ RUN cd /tmp && \
     && ln -s /opt/maven/bin/mvn /usr/bin/mvn
 
 ##### NODE ######
-# install Node.js v0.12 and NPM v2.9.1
+# install Node.js v0.12 and NPM
 RUN curl -sL https://deb.nodesource.com/setup_0.12 | bash -
 RUN apt-get install -y nodejs
-RUN npm install -g npm@2.9.1 && npm cache clear
+RUN npm install -g npm
 
 # install yeoman, bower, grunt e gulp
 RUN npm install -g yo bower grunt-cli gulp
 
 # install yeoman generators
-RUN npm install -g generator-karma \
-                   generator-angular \
+RUN npm install -g generator-angular \
                    generator-gulp-angular \
-                   generator-jhipster@2.13.1
+                   generator-jhipster@2.16.0 \
+                   ionic \
+                   cordova
 
 ##### RUBY ######
 # install ruby, sass and compass
 RUN apt-get install -y -qq ruby-dev make
 RUN gem install sass compass --no-ri --no-rdoc
 
+
+##### HEROKU TOLLBELT ######
+RUN wget -qO- https://toolbelt.heroku.com/install-ubuntu.sh | sh
 
 ##### USER ######
 # create user developer

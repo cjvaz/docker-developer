@@ -48,6 +48,10 @@ RUN apt-get -y -qq install php5-cli php5-gd php5-mysql \
                     php-pear php5-memcache php5-ps \
                     php5-xmlrpc php5-xsl
 
+# install composer
+RUN curl -sS https://getcomposer.org/installer | php
+RUN mv composer.phar /usr/local/bin/composer
+
 #### JAVA #####
 # install java8
 ENV JAVA_HOME /usr/lib/jvm/java-8-oracle
@@ -76,20 +80,50 @@ RUN apt-get install -y nodejs
 RUN npm install -g npm
 
 # install yeoman, bower, grunt e gulp
-RUN npm install -g yo bower grunt-cli gulp
+RUN npm install -g yo
+RUN npm install -g bower
+RUN npm install -g grunt-cli
+RUN npm install -g gulp
 
 # install yeoman generators
-RUN npm install -g generator-angular \
-                   generator-gulp-angular \
-                   generator-jhipster@2.16.0 \
-                   ionic \
-                   cordova
+RUN npm install -g generator-angular
+RUN npm install -g generator-gulp-angular
+RUN npm install -g generator-gulp-webapp 
+RUN npm install -g generator-jhipster@2.16.1 
+RUN npm install -g generator-angular-flask 
+RUN npm install -g ionic
+RUN npm install -g cordova
 
 ##### RUBY ######
-# install ruby, sass and compass
-RUN apt-get install -y -qq ruby-dev make
-RUN gem install sass compass --no-ri --no-rdoc
+# install rbenv and ruby-build
+RUN apt-get install -y zlib1g-dev libssl-dev libreadline-dev libyaml-dev \
+                       libsqlite3-dev sqlite3 libxml2-dev libxslt1-dev \
+                       libcurl4-openssl-dev python-software-properties libffi-dev
 
+RUN git clone https://github.com/sstephenson/rbenv.git /root/.rbenv
+RUN git clone https://github.com/sstephenson/ruby-build.git /root/.rbenv/plugins/ruby-build
+RUN /root/.rbenv/plugins/ruby-build/install.sh
+ENV PATH /root/.rbenv/bin:$PATH
+RUN echo 'eval "$(rbenv init -)"' >> /etc/profile.d/rbenv.sh # or /etc/profile
+RUN echo 'eval "$(rbenv init -)"' >> .bashrc
+RUN echo 'gem: --no-rdoc --no-ri' >> /.gemrc
+
+# Install Ruby
+RUN rbenv install 2.2.2
+RUN rbenv global 2.2.2
+RUN rbenv rehash
+
+# Install Bundler
+RUN gem install --no-ri --no-rdoc bundler
+
+# RAILS
+RUN gem install rails -v 4.2.2
+
+# sass and compass
+RUN gem install sass compass
+
+#### CLIENTS DB #####
+RUN apt-get install -y mysql-client postgresql-client sqlite3 --no-install-recommends && rm -rf /var/lib/apt/lists/*
 
 ##### HEROKU TOLLBELT ######
 RUN wget -qO- https://toolbelt.heroku.com/install-ubuntu.sh | sh

@@ -95,23 +95,20 @@ RUN npm install -g ionic
 RUN npm install -g cordova
 
 ##### RUBY ######
-# install rbenv and ruby-build
+# install dependencies
 RUN apt-get install -y zlib1g-dev libssl-dev libreadline-dev libyaml-dev \
                        libsqlite3-dev sqlite3 libxml2-dev libxslt1-dev \
                        libcurl4-openssl-dev python-software-properties libffi-dev
 
-RUN git clone https://github.com/sstephenson/rbenv.git /root/.rbenv
-RUN git clone https://github.com/sstephenson/ruby-build.git /root/.rbenv/plugins/ruby-build
-RUN /root/.rbenv/plugins/ruby-build/install.sh
-ENV PATH /root/.rbenv/bin:$PATH
-RUN echo 'eval "$(rbenv init -)"' >> /etc/profile.d/rbenv.sh # or /etc/profile
-RUN echo 'eval "$(rbenv init -)"' >> .bashrc
-RUN echo 'gem: --no-rdoc --no-ri' >> /.gemrc
+# install rvm
+RUN gpg --keyserver hkp://keys.gnupg.net --recv-keys 409B6B1796C275462A1703113804BB82D39DC0E3
+RUN /bin/bash -l -c "curl -sSL https://get.rvm.io | bash -s stable"
+RUN /bin/bash -l -c "source /usr/local/rvm/scripts/rvm"
 
-# Install Ruby
-RUN rbenv install 2.2.2
-RUN rbenv global 2.2.2
-RUN rbenv rehash
+# install ruby
+RUN /bin/bash -l -c "rvm install 2.2.2"
+RUN /bin/bash -l -c "rvm use 2.2.2 --default"
+RUN echo "gem: --no-ri --no-rdoc" > ~/.gemrc
 
 # Install Bundler
 RUN gem install --no-ri --no-rdoc bundler
